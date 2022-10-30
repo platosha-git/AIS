@@ -1,3 +1,5 @@
+import numpy as np
+
 # Евклидова мера близости
 def Euclidean_measure(node1, node2):
     evk = Minkowski_measure(2, node1, node2)
@@ -43,7 +45,22 @@ def Chebyshev_measure(node1, node2):
 def Minkowski_measure(p, node1, node2):
     sumMink = 0
     for elem in range(len(node1)):
-        curDiff = node1[elem] - node2[elem]
-        sumMink += np.sign(curDiff) * pow(abs(curDiff), p)
+        curDiff = abs(node1[elem] - node2[elem])
+        sumMink += pow(curDiff, p)
     
     return pow(sumMink, 1/p)
+
+
+def get_correlation_matix(data, metric):
+    matrix = []
+    n = data.shape[0]
+
+    for i in range(n):
+        cur_vector = []
+        for j in range(n):
+            measure = metric(data.values.tolist()[i], data.values.tolist()[j])
+            cur_vector.append(measure)
+        matrix.append(np.array(cur_vector))
+
+    matrix = np.array(matrix)
+    return matrix
