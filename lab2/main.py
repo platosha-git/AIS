@@ -65,6 +65,17 @@ def factorize_data(data, nodes):
 	return data
 
 
+def get_measures(object1, object2):
+	print('Евклидово расстояние:\t\t', Euclidean_measure(object1, object2))
+	print('Расстояние городских кварталов:\t', City_block_distance(object1, object2))
+	print('Косинусная мера:\t\t', Cosine_measure(object1, object2))
+	print('Расстояние Чебышева:\t\t', Chebyshev_measure(object1, object2))
+	print('Расстояние Минковского (p=0.5):\t', Minkowski_measure(0.5, object1, object2))
+
+def get_correlation(object1, object2):
+	print('\nКорреляция: ', np.corrcoef(object1, object2)[0, 1])
+	
+
 def main():
 	os.system("clear")
 
@@ -77,16 +88,32 @@ def main():
 	write_data_to_html(data_fact, html_path)
 	#print(tabulate(data_fact, headers="keys"))
 
+	
+	Id1 = 10
+	Id2 = 28
+
+	Object1 = data_fact.iloc[Id1]
+	Object2 = data_fact.iloc[Id2]
+
+	#print("Город 1:\n", Object1)
+	#print("Город 2:\n", Object2)
+
+	get_measures(Object1, Object2)
+	get_correlation(Object1, Object2)
+
+	'''
 	matrix1 = get_correlation_matix(data_fact, Euclidean_measure)
 	matrix2 = get_correlation_matix(data_fact, City_block_distance)
 	matrix3 = get_correlation_matix(data_fact, Cosine_measure)
 	matrix4 = get_correlation_matix(data_fact, Chebyshev_measure)
+	matrix5 = get_correlation_matix(data_fact, Minkowski_measure)
 
 	plot_matrices(matrix1, 'Евклидово расстояние', \
 					matrix2, 'Расстояние городских кварталов', \
 					matrix3, 'Косинусная мера', \
-					matrix4, 'Расстояние Чебышева')
-
+					matrix4, 'Расстояние Чебышева', \
+					matrix5, 'Расстояние Минковского (p=0.5)')
+	'''
 
 if __name__ == "__main__":
 	main()

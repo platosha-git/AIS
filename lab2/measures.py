@@ -58,7 +58,10 @@ def get_correlation_matix(data, metric):
     for i in range(n):
         cur_vector = []
         for j in range(n):
-            measure = metric(data.values.tolist()[i], data.values.tolist()[j])
+            if (metric == Minkowski_measure):
+                measure = metric(0.5, data.values.tolist()[i], data.values.tolist()[j])
+            else:
+                measure = metric(data.values.tolist()[i], data.values.tolist()[j])
             cur_vector.append(measure)
         matrix.append(np.array(cur_vector))
 
