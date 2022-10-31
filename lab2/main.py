@@ -11,6 +11,8 @@ from measures import *
 ods_path = "./Cities.ods"
 json_path = "./Nodes.json"
 html_path = "./Table.html"
+tree_path = "./Tree.json"
+
 
 def factorize_data(data, nodes):
 	del data['Город']
@@ -66,11 +68,15 @@ def factorize_data(data, nodes):
 
 
 def get_measures(object1, object2):
-	print('Евклидово расстояние:\t\t', Euclidean_measure(object1, object2))
-	print('Расстояние городских кварталов:\t', City_block_distance(object1, object2))
-	print('Косинусная мера:\t\t', Cosine_measure(object1, object2))
-	print('Расстояние Чебышева:\t\t', Chebyshev_measure(object1, object2))
-	print('Расстояние Минковского (p=0.5):\t', Minkowski_measure(0.5, object1, object2))
+	# print('Евклидово расстояние:\t\t', Euclidean_measure(object1, object2))
+	# print('Расстояние городских кварталов:\t', City_block_distance(object1, object2))
+	# print('Косинусная мера:\t\t', Cosine_measure(object1, object2))
+	# print('Расстояние Чебышева:\t\t', Chebyshev_measure(object1, object2))
+	# print('Расстояние Минковского (p=0.5):\t', Minkowski_measure(0.5, object1, object2))
+	
+
+	tree = get_data_from_json(tree_path);
+	print('Древесная мера:\t', Tree_measure(tree, object1, object2))
 
 def get_correlation(object1, object2):
 	print('\nКорреляция: ', np.corrcoef(object1, object2)[0, 1])
@@ -98,8 +104,10 @@ def main():
 	#print("Город 1:\n", Object1)
 	#print("Город 2:\n", Object2)
 
-	get_measures(Object1, Object2)
-	get_correlation(Object1, Object2)
+	print(data.iloc[0])
+
+	#get_measures(Object1, Object2)
+	#get_correlation(Object1, Object2)
 
 	'''
 	matrix1 = get_correlation_matix(data_fact, Euclidean_measure)

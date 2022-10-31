@@ -50,6 +50,11 @@ def Minkowski_measure(p, node1, node2):
     
     return pow(sumMink, 1/p)
 
+# Древесная мера
+def Tree_measure(tree, node1, node2):
+    print(tree[0])
+    return
+
 
 def get_correlation_matix(data, metric):
     matrix = []
