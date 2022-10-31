@@ -67,19 +67,26 @@ def factorize_data(data, nodes):
 	return data
 
 
-def get_measures(object1, object2):
-	# print('Евклидово расстояние:\t\t', Euclidean_measure(object1, object2))
-	# print('Расстояние городских кварталов:\t', City_block_distance(object1, object2))
-	# print('Косинусная мера:\t\t', Cosine_measure(object1, object2))
-	# print('Расстояние Чебышева:\t\t', Chebyshev_measure(object1, object2))
-	# print('Расстояние Минковского (p=0.5):\t', Minkowski_measure(0.5, object1, object2))
-	
-
-	tree = get_data_from_json(tree_path);
+def get_measures(object1, object2, tree):
+	print('Евклидово расстояние:\t\t', Euclidean_measure(object1, object2))
+	print('Расстояние городских кварталов:\t', City_block_distance(object1, object2))
+	print('Косинусная мера:\t\t', Cosine_measure(object1, object2))
+	print('Расстояние Чебышева:\t\t', Chebyshev_measure(object1, object2))
+	print('Расстояние Минковского (p=0.5):\t', Minkowski_measure(0.5, object1, object2))
 	print('Древесная мера:\t', Tree_measure(tree, object1, object2))
 
 def get_correlation(object1, object2):
-	print('\nКорреляция: ', np.corrcoef(object1, object2)[0, 1])
+	correlation = np.corrcoef(object1, object2)[0, 1]
+	if (abs(correlation) < 0.2):
+		print('\nКорреляция (очень слабая): ', correlation)
+	elif (abs(correlation) < 0.5):
+		print('\nКорреляция (слабая): ', correlation)
+	elif (abs(correlation) < 0.7):
+		print('\nКорреляция (средняя): ', correlation)
+	elif (abs(correlation) < 0.9):
+		print('\nКорреляция (высокая): ', correlation)
+	else:
+		print('\nКорреляция (очень высокая): ', correlation)
 	
 
 def main():
@@ -87,6 +94,7 @@ def main():
 
 	data = get_data_from_ods(ods_path)
 	nodes = get_data_from_json(json_path)
+	tree = get_data_from_json(tree_path);
 	#print(tabulate(data, headers="keys"))
 	#print('\n')
 
@@ -94,9 +102,12 @@ def main():
 	write_data_to_html(data_fact, html_path)
 	#print(tabulate(data_fact, headers="keys"))
 
-	
-	Id1 = 3#10
-	Id2 = 28
+	# 4 и 22 похожи
+	# 12 и 1 разные
+	# 8 и 18 - промысел
+	# 6 и 13 паломничество и гастрономия
+	Id1 = 4
+	Id2 = 22
 
 	Object1 = data_fact.iloc[Id1]
 	Object2 = data_fact.iloc[Id2]
@@ -104,10 +115,9 @@ def main():
 	#print("Город 1:\n", Object1)
 	#print("Город 2:\n", Object2)
 
-	get_measures(Object1, Object2)
-	#get_correlation(Object1, Object2)
+	get_measures(Object1, Object2, tree)
+	get_correlation(Object1, Object2)
 
-	'''
 	matrix1 = get_correlation_matix(data_fact, Euclidean_measure)
 	matrix2 = get_correlation_matix(data_fact, City_block_distance)
 	matrix3 = get_correlation_matix(data_fact, Cosine_measure)
@@ -119,7 +129,6 @@ def main():
 					matrix3, 'Косинусная мера', \
 					matrix4, 'Расстояние Чебышева', \
 					matrix5, 'Расстояние Минковского (p=0.5)')
-	'''
 
 if __name__ == "__main__":
 	main()

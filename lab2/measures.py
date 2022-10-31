@@ -58,34 +58,36 @@ def get_path_to_root(tree, node):
             path = cur_node["parent"]
     return path
 
+def get_distance_by_path(path1, path2):
+    common = sum(1 for i in path1 if i in path2)
+    distance = len(path1) + len(path2) - 2 * common
+    return distance
+
 def Tree_measure(tree, node1, node2):
     path1 = get_path_to_root(tree, node1)
     path2 = get_path_to_root(tree, node2)
-    
-    print("path1 = ", path1)
-    print("path2 = ", path2)
 
-    if (type(path1[0]) is list and type(path2[0]) is not list):
-        common1 = sum(1 for i in path1[0] if i in path2)
-        common2 = sum(1 for i in path1[1] if i in path2)
-        
-        distance1 = len(path1[0]) + len(path2) - 2 * common1
-        distance2 = len(path1[1]) + len(path2) - 2 * common2
-        distance = max(distance1, distance2)
+    if (type(path1[0]) is not list and type(path2[0]) is not list):
+        distance = get_distance_by_path(path1, path2)
 
-        print("Distance = ", distance)
+    elif (type(path1[0]) is list and type(path2[0]) is not list):
+        distance1 = get_distance_by_path(path1[0], path2)
+        distance2 = get_distance_by_path(path1[1], path2)
+        distance = [distance1, distance2]
 
-    if (type(path2[0]) is list):
-        print(True)
+    elif (type(path1[0]) is not list and type(path2[0]) is list):
+        distance1 = get_distance_by_path(path1, path2[0])
+        distance2 = get_distance_by_path(path1, path2[1])
+        distance = [distance1, distance2]
 
-    #common = sum(1 for i in path1 if i in path2)
-    #print("common = ", common)
+    elif (type(path1[0]) is list and type(path2[0]) is list):
+        distance11 = get_distance_by_path(path1[0], path2[0])
+        distance12 = get_distance_by_path(path1[0], path2[1])
+        distance21 = get_distance_by_path(path1[1], path2[0])
+        distance22 = get_distance_by_path(path1[1], path2[1])
+        distance = [distance11, distance12, distance21, distance22]
 
-    #distance = len(path1) + len(path2) - 2 * common
-    #print("distance = ", distance)
-
-
-    return
+    return distance
 
 
 def get_correlation_matix(data, metric):
