@@ -2,37 +2,40 @@ from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
 
+img_path = "/home/platosha/Desktop/BMSTU/1Msem/AIS/background.png"
+
+def load_image():
+	img = Image.open(img_path)
+
+	width = 1000
+	ratio = (width / float(img.size[0]))
+	height = int((float(img.size[1]) * float(ratio)))
+	imag = img.resize((width, height), Image.ANTIALIAS)
+	
+	image = ImageTk.PhotoImage(imag)
+	return image
+
 def clicked():   
-	messagebox.showinfo('Заголовок', 'Текст') 
+	#messagebox.showinfo('Заголовок', 'Текст') 
 	res = "Привет {}".format(txt.get())  
 	lbl.configure(text=res)      
 
 window = Tk()  
-window.title("Добро пожаловать в приложение PythonRu")  
-window.geometry('500x450')  
+window.title("Рекомендательная система туров по России")  
+window.geometry('1000x554')
 
-img = Image.open('/home/platosha/Images/Обои/4')
-width = 500
-ratio = (width / float(img.size[0]))
-height = int((float(img.size[1]) * float(ratio)))
-imag = img.resize((width, height), Image.ANTIALIAS)
-image = ImageTk.PhotoImage(imag)
-#panel.pack(side="top", fill="both", expand="no")
+image = load_image()
+panel = Label(window, image=image)
+panel.pack(side="top", fill="both", expand="no")
 
+lbl = Label(window, text="Введите имя", width=17)  
+lbl.place(x=412, y=260)
 
-
-lbl = Label(window, text="Привет", image=image)  
-#lbl.grid(column=0, row=0)  
-lbl.pack(side="top")
-
-txt = Entry(window, width=10)  
-#txt.grid(column=1, row=0)  
-txt.pack()
+txt = Entry(window, width=17)   
+txt.place(x=412, y=290)
 txt.focus()
 
-btn = Button(window, text="Не нажимать!", command=clicked)  
-btn.place(x=250, y=250)
-#btn.grid(column=0, row=1)  
-#btn.pack(ipadx=10, ipady=10)
+btn = Button(window, text="Ввести", activebackground='#545885', bd=3, bg='#7F90C4', height=1, width=17, command=clicked)  
+btn.place(x=400, y=325)
 
 window.mainloop()
