@@ -95,7 +95,7 @@ def main():
 	#print(tabulate(data_fact, headers="keys"))
 
 	
-	Id1 = 10
+	Id1 = 3#10
 	Id2 = 28
 
 	Object1 = data_fact.iloc[Id1]
@@ -104,9 +104,7 @@ def main():
 	#print("Город 1:\n", Object1)
 	#print("Город 2:\n", Object2)
 
-	print(data.iloc[0])
-
-	#get_measures(Object1, Object2)
+	get_measures(Object1, Object2)
 	#get_correlation(Object1, Object2)
 
 	'''
