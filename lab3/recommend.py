@@ -1,6 +1,7 @@
 import os
 import itertools
 import numpy as np
+import pandas as pd
 from tabulate import tabulate
 
 from read_write_data import load_data
@@ -18,7 +19,7 @@ def get_measures_for_city(data_fact, like_city_id):
 			continue
 		cur_city = data_fact.iloc[i]
 
-		measure = Euclidean_measure(city, cur_city)
+		measure = Minkowski_measure(0.5, city, cur_city)
 		measures.append([measure, i])
 
 	measures.sort()
@@ -38,9 +39,31 @@ def recommend_by_like(like_city_id):
 	measures = get_measures_for_city(data_fact, like_city_id)
 	
 	cities = matc_data_with_fact_data(data, measures)
-	cities.insert(0, data.iloc[like_city_id])
+	like_city = data.iloc[like_city_id]
 
-	return cities
+	return [like_city], cities
+
 
 def recommend_by_array_likes(array_likes):
+	data, nodes, data_fact = load_data()
+	matrix = get_correlation_matix(data_fact, Minkowski_measure)
 	
+	measures = []
+	for like in array_likes:
+		cur_measures = get_measures_for_city(data_fact, like)
+
+		if (not measures):
+			measures = cur_measures
+		else:
+			for i in range(len(measures)):
+				measures[i] = measures[i] if measures[i][0] < cur_measures[i][0] else cur_measures[i]
+
+	cities = matc_data_with_fact_data(data, measures)
+	
+	like_cities = []
+	for like in array_likes:
+		like_city = data.iloc[like]
+		like_cities.append(like_city)
+
+	return like_cities, cities
+

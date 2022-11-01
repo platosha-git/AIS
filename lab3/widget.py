@@ -4,20 +4,21 @@ from PIL import ImageTk, Image
 
 from authorization import login
 
-img_path = "/home/platosha/Desktop/BMSTU/1Msem/AIS/background.png"
+img_path = "/home/platosha/Desktop/BMSTU/1Msem/AIS/lab3/background.png"
 
 def back():
 	output_text.place_forget()
 	output_btn.place_forget()
 
 	txt.delete(0, 'end')
+	output_text.delete('1.0', END)
 
 	lbl.place(x=412, y=260)
 	txt.place(x=413, y=285)
 	btn.place(x=400, y=325)
 
 
-def output_cities(cities):
+def output_cities(like_cities, cities):
 	lbl.place_forget()
 	txt.place_forget()
 	btn.place_forget()
@@ -25,17 +26,20 @@ def output_cities(cities):
 	output_text.place(x=290, y=20)
 	output_btn.place(x=25, y=500)
 
-	output_text.insert(INSERT, "Любимый город: " + cities[0]['Город'])
-	for i in range(1, len(cities)):
+	output_text.insert(INSERT, "Любимые города:")
+	for i in range(len(like_cities)):
+		output_text.insert(INSERT, "\n\t" + like_cities[i]['Город'])
+
+	for i in range(len(cities)):
 		output_text.insert(INSERT, "\n----------------------------------------------\n")
 		output_text.insert(INSERT, cities[i])
 
 
 def clicked():   
 	user = txt.get()
-	cities = login(user)
+	like_cities, cities = login(user)
 	if (cities):
-		output_cities(cities)
+		output_cities(like_cities, cities)
 		
 
 def load_image(img_path):
