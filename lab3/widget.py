@@ -18,7 +18,7 @@ def back():
 	btn.place(x=400, y=325)
 
 
-def output_cities(like_cities, cities):
+def output_cities(like_cities, dislike_cities, cities):
 	lbl.place_forget()
 	txt.place_forget()
 	btn.place_forget()
@@ -30,6 +30,10 @@ def output_cities(like_cities, cities):
 	for i in range(len(like_cities)):
 		output_text.insert(INSERT, "\n\t" + like_cities[i]['Город'])
 
+	output_text.insert(INSERT, "\nНелюбимые города:")
+	for i in range(len(dislike_cities)):
+		output_text.insert(INSERT, "\n\t" + dislike_cities[i]['Город'])
+
 	for i in range(len(cities)):
 		output_text.insert(INSERT, "\n----------------------------------------------\n")
 		output_text.insert(INSERT, cities[i])
@@ -37,9 +41,9 @@ def output_cities(like_cities, cities):
 
 def clicked():   
 	user = txt.get()
-	like_cities, cities = login(user)
+	like_cities, dislike_cities, cities = login(user)
 	if (cities):
-		output_cities(like_cities, cities)
+		output_cities(like_cities, dislike_cities, cities)
 		
 
 def load_image(img_path):
