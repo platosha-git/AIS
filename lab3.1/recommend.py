@@ -83,7 +83,8 @@ def recommend_by_array_likes_dislikes(array_likes, array_dislikes):
 	for i in range(len(dislike_measures)):
 		dislike_measures[i][0] = dislike_max_measure[0] - dislike_measures[i][0]
 
-	measures = like_measures + dislike_measures
+	#measures = like_measures + dislike_measures
+	measures = like_measures
 
 	cities = match_data_with_fact_data(data, measures)
 
