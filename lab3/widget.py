@@ -49,7 +49,7 @@ def clicked():
 def load_image(img_path):
 	img = Image.open(img_path)
 
-	width = 1000
+	width = 1920
 	ratio = (width / float(img.size[0]))
 	height = int((float(img.size[1]) * float(ratio)))
 	imag = img.resize((width, height), Image.ANTIALIAS)
@@ -60,21 +60,22 @@ def load_image(img_path):
 
 window = Tk()  
 window.title("Рекомендательная система туров по России")  
-window.geometry('1000x554')
+window.geometry('1920x1080')
 
 image = load_image(img_path)
 panel = Label(window, image=image)
 panel.pack(side="top", fill="both", expand="no")
 
-lbl = Label(window, text="Введите имя", bg='#96B8E5', width=17)  
-lbl.place(x=412, y=260)
+lbl = Label(window, text="Введите имя", bg='#96B8E5', fg='white', width=17)  
+lbl.config(font=("Arial", 30))
+lbl.place(x=731, y=507)
 
 txt = Entry(window, width=17)   
-txt.place(x=413, y=285)
+txt.place(x=793, y=555)
 txt.focus()
 
-btn = Button(window, text="Ввести", activebackground='#545885', bd=3, bg='#7F90C4', height=1, width=17, command=clicked)  
-btn.place(x=400, y=325)
+btn = Button(window, text="Ввести", activebackground='#545885', bd=3, bg='#7F90C4', width=17, command=clicked)  
+btn.place(x=768, y=633)
 
 output_text = Text(width=48, height=30, wrap=WORD)
 output_btn = Button(window, text="Назад", activebackground='#545885', bd=3, bg='#7F90C4', height=1, width=17, command=back)
