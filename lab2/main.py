@@ -73,21 +73,25 @@ def get_measures(object1, object2, tree):
 	print('Косинусная мера:\t\t', Cosine_measure(object1, object2))
 	print('Расстояние Чебышева:\t\t', Chebyshev_measure(object1, object2))
 	print('Расстояние Минковского (p=0.5):\t', Minkowski_measure(0.5, object1, object2))
+	print('Ассоциативная мера:\t\t', Associative_measure(object1, object2))
+	print('Мера Жаккарда:\t\t\t', Jaccard_measure(object1, object2))
 	print('Древесная мера:\t', Tree_measure(tree, object1, object2))
+
 
 def get_correlation(object1, object2):
 	correlation = np.corrcoef(object1, object2)[0, 1]
-	if (abs(correlation) < 0.2):
+	if abs(correlation) < 0.2:
 		print('\nКорреляция (очень слабая): ', correlation)
-	elif (abs(correlation) < 0.5):
+	elif abs(correlation) < 0.5:
 		print('\nКорреляция (слабая): ', correlation)
-	elif (abs(correlation) < 0.7):
+	elif abs(correlation) < 0.7:
 		print('\nКорреляция (средняя): ', correlation)
-	elif (abs(correlation) < 0.9):
+	elif abs(correlation) < 0.9:
 		print('\nКорреляция (высокая): ', correlation)
 	else:
 		print('\nКорреляция (очень высокая): ', correlation)
-	
+
+
 
 def main():
 	os.system("clear")
@@ -123,12 +127,17 @@ def main():
 	matrix3 = get_correlation_matix(data_fact, Cosine_measure)
 	matrix4 = get_correlation_matix(data_fact, Chebyshev_measure)
 	matrix5 = get_correlation_matix(data_fact, Minkowski_measure)
+	matrix6 = get_correlation_matix(data_fact, Associative_measure)
+	matrix7 = get_correlation_matix(data_fact, Jaccard_measure)
 
 	plot_matrices(matrix1, 'Евклидово расстояние', \
 					matrix2, 'Расстояние городских кварталов', \
 					matrix3, 'Косинусная мера', \
 					matrix4, 'Расстояние Чебышева', \
-					matrix5, 'Расстояние Минковского (p=0.5)')
+					matrix5, 'Расстояние Минковского (p=0.5)', \
+					matrix6, 'Ассоциативная мера', \
+					matrix7, 'Мера Жаккарда')
+
 
 if __name__ == "__main__":
 	main()
