@@ -119,7 +119,7 @@ def get_correlation_matix(data, metric):
 
     for i in range(n):
         cur_vector = []
-        
+
         for j in range(n):
             if (metric == Minkowski_measure):
                 measure = metric(0.5, data.values.tolist()[i], data.values.tolist()[j])
@@ -130,3 +130,27 @@ def get_correlation_matix(data, metric):
 
     matrix = np.array(matrix)
     return matrix
+
+
+# def compare_vector(vector1, vector2):
+#     vector_compare = []
+    
+#     n = len(vector1)
+#     for i in range(n):
+#         cur_elem = abs(vector1[i] - vector2[i])
+#         vector_compare.append(cur_elem)
+
+#     return vector_compare
+
+# def compare_matrices(matrix1, matrix2):
+#     matrix_compare = []
+    
+#     n = len(matrix1)
+#     for i in range(n):
+#         vector_compare = compare_vector(matrix1[i], matrix2[i])
+#         matrix_compare.append(vector_compare)
+
+#     print(matrix1[0])
+#     print(matrix2[0])
+
+#     return matrix_compare
