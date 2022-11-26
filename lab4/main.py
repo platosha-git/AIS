@@ -97,6 +97,8 @@ class mywindow(QMainWindow):
         self.ui.tableWidget.setHorizontalHeaderItem(4, item)
 
     def output_cities(self, like_cities, dislike_cities, recommend_cities):
+        self.ui.name.setText("Название города")
+        '''
         self.ui.text_like_cities.setText("Любимые города:")
         self.ui.text_dislike_cities.setText("Нелюбимые города:")
 
@@ -134,16 +136,17 @@ class mywindow(QMainWindow):
             self.ui.tableWidget.setItem(6, i, QTableWidgetItem(str(city_dist)))
             self.ui.tableWidget.setItem(7, i, QTableWidgetItem(city_people))
             i = i + 1
+        '''
 
 
     def btn_login_click(self):
         self.ui.frame_login.setVisible(False)
-        self.ui.frame_search.setVisible(True)
-        self.ui.frame_cities.setVisible(True)
+        #self.ui.frame_search.setVisible(True)
+        #self.ui.frame_cities.setVisible(True)
         self.ui.btn_back.setVisible(True)
 
         user = self.ui.line_name_input.text()
-        #user = "Max"
+        user = "Max"
         like_cities, dislike_cities, cities = login(user)
         
         if (cities):
