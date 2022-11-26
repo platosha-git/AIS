@@ -39,21 +39,57 @@ def login(username):
 	return like_cities, dislike_cities, cities
 
 
-def update_likes(username, city_name):
+def update_likes(username, city_name=None):
+	like_cities, dislike_cities, cities = [], [], []
+	if city_name:
+		like_cities, dislike_cities, cities = add_like(username, city_name)
+	else:
+		like_cities, dislike_cities, cities = remove_like(username)
+
+	return like_cities, dislike_cities, cities
+
+
+def add_like(username, city_name):
 	like_city_id = get_city_id_by_name(city_name)
 	array_likes.append(like_city_id)
 	
+	like_cities, dislike_cities, cities = recommend(array_likes, array_dislikes)
+
+	return like_cities, dislike_cities, cities
+
+
+def remove_like(username):
+	array_likes.pop()
+	
+	like_cities, dislike_cities, cities = recommend(array_likes, array_dislikes)
+
+	return like_cities, dislike_cities, cities
+
+
+def update_dislikes(username, city_name=None):
+	like_cities, dislike_cities, cities = [], [], []
+	if city_name:
+		like_cities, dislike_cities, cities = add_dislike(username, city_name)
+	else:
+		like_cities, dislike_cities, cities = remove_dislike(username)
+
+	return like_cities, dislike_cities, cities
+
+
+def add_dislike(username, city_name):
+	dislike_city_id = get_city_id_by_name(city_name)
+	array_dislikes.append(dislike_city_id)
+
 	like_cities, dislike_cities, cities = [], [], []
 	like_cities, dislike_cities, cities = recommend(array_likes, array_dislikes)
 
 	return like_cities, dislike_cities, cities
 
 
-def update_dislikes(username, city_name):
-	dislike_city_id = get_city_id_by_name(city_name)
-	array_dislikes.append(dislike_city_id)
-
-	like_cities, dislike_cities, cities = [], [], []
+def remove_dislike(username):
+	if (len(array_dislikes) > 0):
+		array_dislikes.pop()
+	
 	like_cities, dislike_cities, cities = recommend(array_likes, array_dislikes)
 
 	return like_cities, dislike_cities, cities

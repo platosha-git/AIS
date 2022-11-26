@@ -38,6 +38,9 @@ class mywindow(QMainWindow):
         self.ui.btn_dislike_5.clicked.connect(self.btn_dislike5_click)
         self.ui.btn_dislike_6.clicked.connect(self.btn_dislike6_click)
 
+        self.ui.btn_delete_like.clicked.connect(self.btn_delete_like_click)
+        self.ui.btn_delete_dislike.clicked.connect(self.btn_delete_dislike_click)
+
 
     def btn_like1_click(self):
         city_name = self.ui.name_1.text()
@@ -99,6 +102,24 @@ class mywindow(QMainWindow):
         self.clear_properties()
         
         like_cities, dislike_cities, cities = update_dislikes(self.user, city_name)
+        if (cities):
+            self.output_cities(like_cities, dislike_cities, cities)
+
+
+    def btn_delete_like_click(self):
+        self.clear_properties()
+        
+        likes = self.ui.text_like_cities.toPlainText()
+        if (len(likes) > 20):
+            like_cities, dislike_cities, cities = update_likes(self.user)
+            if (cities):
+                self.output_cities(like_cities, dislike_cities, cities)
+
+
+    def btn_delete_dislike_click(self):
+        self.clear_properties()
+        
+        like_cities, dislike_cities, cities = update_dislikes(self.user)
         if (cities):
             self.output_cities(like_cities, dislike_cities, cities)
 
@@ -170,16 +191,15 @@ class mywindow(QMainWindow):
 
 
     def btn_login_click(self):
-        self.ui.frame_login.setVisible(False)
-        self.ui.frame_search.setVisible(True)
-        self.ui.frame_cities.setVisible(True)
-        self.ui.btn_back.setVisible(True)
-
-        #self.user = self.ui.line_name_input.text()
         self.user = "Max"
-        like_cities, dislike_cities, cities = login(self.user)
-        
-        if (cities):
+        #self.user = self.ui.line_name_input.text()
+        if (self.user):
+            self.ui.frame_login.setVisible(False)
+            self.ui.frame_search.setVisible(True)
+            self.ui.frame_cities.setVisible(True)
+            self.ui.btn_back.setVisible(True)
+            
+            like_cities, dislike_cities, cities = login(self.user)
             self.output_cities(like_cities, dislike_cities, cities)
 
 
