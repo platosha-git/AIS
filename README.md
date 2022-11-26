@@ -15,3 +15,5 @@
 * 1 лайка (Max);  
 * массива лайков (Paul);  
 * массива лайков и дизлайков (Sam).  
+
+### [Лабораторная 4](https://github.com/platosha-git/AIS/tree/master/lab4)
