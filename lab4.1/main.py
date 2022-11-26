@@ -38,7 +38,7 @@ class mywindow(QMainWindow):
         distance = self.ui.combo_distance.currentText()
 
         cities = find_cities_by_filters(name, theme, in_ring, out_ring, distance)
-
+        
         for city in cities:
             self.ui.text_found_cities.append(city.to_string())
 
