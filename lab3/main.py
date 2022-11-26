@@ -5,7 +5,7 @@ import sys
 
 from authorization import login
 
-BACKGROUND_PATH = '/home/platosha/Desktop/BMSTU/1Msem/AIS/lab3.1/background.png'
+BACKGROUND_PATH = '/home/platosha/Desktop/BMSTU/1Msem/AIS/lab3/img/background.png'
 
 class mywindow(QMainWindow):
     def __init__(self):

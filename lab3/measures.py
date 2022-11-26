@@ -51,6 +51,29 @@ def Minkowski_measure(p, node1, node2):
     return pow(sumMink, 1/p)
 
 
+# Ассоциативная мера
+def Associative_measure(node1, node2):
+    cnt_similars = 0
+    cnt = 0
+    for elem in range(len(node1)):
+        if node1[elem] == node2[elem]:
+            cnt_similars += 1
+        cnt += 1
+
+    return cnt_similars / cnt
+
+
+# Мера Жаккарда
+def Jaccard_measure(node1, node2):
+    node1_set = set(node1)
+    node2_set = set(node2)
+    
+    shared = node1_set.intersection(node2_set)
+    total = node1_set.union(node2_set)
+    
+    return len(shared) / len(total)
+
+
 # Древесная мера
 def get_path_to_root(tree, node):
     for cur_node in tree:
@@ -96,6 +119,7 @@ def get_correlation_matix(data, metric):
 
     for i in range(n):
         cur_vector = []
+
         for j in range(n):
             if (metric == Minkowski_measure):
                 measure = metric(0.5, data.values.tolist()[i], data.values.tolist()[j])
@@ -106,3 +130,27 @@ def get_correlation_matix(data, metric):
 
     matrix = np.array(matrix)
     return matrix
+
+
+# def compare_vector(vector1, vector2):
+#     vector_compare = []
+    
+#     n = len(vector1)
+#     for i in range(n):
+#         cur_elem = abs(vector1[i] - vector2[i])
+#         vector_compare.append(cur_elem)
+
+#     return vector_compare
+
+# def compare_matrices(matrix1, matrix2):
+#     matrix_compare = []
+    
+#     n = len(matrix1)
+#     for i in range(n):
+#         vector_compare = compare_vector(matrix1[i], matrix2[i])
+#         matrix_compare.append(vector_compare)
+
+#     print(matrix1[0])
+#     print(matrix2[0])
+
+#     return matrix_compare

@@ -87,8 +87,6 @@ def load_data():
     nodes = get_data_from_json(json_path)
     data_fact = factorize_data(data, nodes)
 
-    del data['ЗК']
     del data['Историческая личность']
-    del data['Направление']
 
     return data, nodes, data_fact
