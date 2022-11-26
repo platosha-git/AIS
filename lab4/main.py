@@ -3,10 +3,9 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QMessageBox, QTextEdit
 import sys
 
-from authorization import login
+from authorization import *
 from filter import find_cities_by_filters
 
-BACKGROUND_PATH = '/home/platosha/Desktop/BMSTU/1Msem/AIS/lab4/img/background.png'
 
 class mywindow(QMainWindow):
     def __init__(self):
@@ -14,15 +13,94 @@ class mywindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.user = ""
+
         self.ui.frame_login.setVisible(True)
         self.ui.frame_cities.setVisible(False)
         self.ui.frame_search.setVisible(False)
-        self.ui.text_found_cities.setVisible(False)
         self.ui.btn_back.setVisible(False)
 
         self.ui.btn_login.clicked.connect(self.btn_login_click)
         self.ui.btn_back.clicked.connect(self.btn_back_click)
         self.ui.btn_find.clicked.connect(self.btn_find_click)
+
+        self.ui.btn_like_1.clicked.connect(self.btn_like1_click)
+        self.ui.btn_like_2.clicked.connect(self.btn_like2_click)
+        self.ui.btn_like_3.clicked.connect(self.btn_like3_click)
+        self.ui.btn_like_4.clicked.connect(self.btn_like4_click)
+        self.ui.btn_like_5.clicked.connect(self.btn_like5_click)
+        self.ui.btn_like_6.clicked.connect(self.btn_like6_click)
+
+        self.ui.btn_dislike_1.clicked.connect(self.btn_dislike1_click)
+        self.ui.btn_dislike_2.clicked.connect(self.btn_dislike2_click)
+        self.ui.btn_dislike_3.clicked.connect(self.btn_dislike3_click)
+        self.ui.btn_dislike_4.clicked.connect(self.btn_dislike4_click)
+        self.ui.btn_dislike_5.clicked.connect(self.btn_dislike5_click)
+        self.ui.btn_dislike_6.clicked.connect(self.btn_dislike6_click)
+
+
+    def btn_like1_click(self):
+        city_name = self.ui.name_1.text()
+        self.btn_like_click(city_name)
+
+    def btn_like2_click(self):
+        city_name = self.ui.name_2.text()
+        self.btn_like_click(city_name)
+    
+    def btn_like3_click(self):
+        city_name = self.ui.name_3.text()
+        self.btn_like_click(city_name)
+    
+    def btn_like4_click(self):
+        city_name = self.ui.name_4.text()
+        self.btn_like_click(city_name)
+    
+    def btn_like5_click(self):
+        city_name = self.ui.name_5.text()
+        self.btn_like_click(city_name)
+    
+    def btn_like6_click(self):
+        city_name = self.ui.name_6.text()
+        self.btn_like_click(city_name)
+
+    def btn_like_click(self, city_name):
+        self.clear_properties()
+        
+        like_cities, dislike_cities, cities = update_likes(self.user, city_name)
+        if (cities):
+            self.output_cities(like_cities, dislike_cities, cities)
+
+
+    def btn_dislike1_click(self):
+        city_name = self.ui.name_1.text()
+        self.btn_dislike_click(city_name)
+
+    def btn_dislike2_click(self):
+        city_name = self.ui.name_2.text()
+        self.btn_dislike_click(city_name)
+    
+    def btn_dislike3_click(self):
+        city_name = self.ui.name_3.text()
+        self.btn_dislike_click(city_name)
+    
+    def btn_dislike4_click(self):
+        city_name = self.ui.name_4.text()
+        self.btn_dislike_click(city_name)
+    
+    def btn_dislike5_click(self):
+        city_name = self.ui.name_5.text()
+        self.btn_dislike_click(city_name)
+    
+    def btn_dislike6_click(self):
+        city_name = self.ui.name_6.text()
+        self.btn_dislike_click(city_name)
+
+    def btn_dislike_click(self, city_name):
+        self.clear_properties()
+        
+        like_cities, dislike_cities, cities = update_dislikes(self.user, city_name)
+        if (cities):
+            self.output_cities(like_cities, dislike_cities, cities)
 
 
     def btn_find_click(self):
@@ -46,59 +124,34 @@ class mywindow(QMainWindow):
     def btn_back_click(self):
         self.ui.frame_cities.setVisible(False)
         self.ui.frame_search.setVisible(False)
-        self.ui.text_found_cities.setVisible(False)
         self.ui.frame_login.setVisible(True)
         self.ui.btn_back.setVisible(False)
         
         self.ui.line_name_input.clear()
-        self.ui.text_like_cities.clear()
-        self.ui.text_dislike_cities.clear()
+        self.clear_properties()
 
-        self.ui.text_like_cities.setText("Любимые города:")
-        self.ui.text_dislike_cities.setText("Нелюбимые города:")
+        logout(self.user)
 
-        self.ui.tableWidget.clear()
-        self.ui.text_found_cities.clear()
+    def clear_properties(self):
+        self.ui.properties_1.clear()
+        self.ui.properties_2.clear()
+        self.ui.properties_3.clear()
+        self.ui.properties_4.clear()
+        self.ui.properties_5.clear()
+        self.ui.properties_6.clear()
 
+    def output_city(self, name, properties, city):
+        name.setText(city["Город"])
+        
+        properties.append("Область: " + city["Область"])
+        properties.append("Тематика: " + city["Тематика"])
+        properties.append("Золотое кольцо: " + city["ЗК"])
+        properties.append("Направление: " + city["Направление"])
+        properties.append("Расстояние от Москвы: " + str(city["Расстояние от Москвы"]) + " км")
+        properties.append("Население: " + city["Население"])
 
-    def init_table(self):
-        self.ui.tableWidget.setColumnCount(5)
-        self.ui.tableWidget.setRowCount(8)
-        item = QtWidgets.QTableWidgetItem("Город")
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        item.setFont(font)
-        self.ui.tableWidget.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem("Область")
-        self.ui.tableWidget.setVerticalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem("Тематика")
-        self.ui.tableWidget.setVerticalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem("Историческая эпоха")
-        self.ui.tableWidget.setVerticalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem("ЗК")
-        self.ui.tableWidget.setVerticalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem("Направление")
-        self.ui.tableWidget.setVerticalHeaderItem(5, item)
-        item = QtWidgets.QTableWidgetItem("Расстояние от Москвы")
-        self.ui.tableWidget.setVerticalHeaderItem(6, item)
-        item = QtWidgets.QTableWidgetItem("Население")
-        self.ui.tableWidget.setVerticalHeaderItem(7, item)
-
-        item = QtWidgets.QTableWidgetItem("1")
-        self.ui.tableWidget.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem("2")
-        self.ui.tableWidget.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem("3")
-        self.ui.tableWidget.setHorizontalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem("4")
-        self.ui.tableWidget.setHorizontalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem("5")
-        self.ui.tableWidget.setHorizontalHeaderItem(4, item)
 
     def output_cities(self, like_cities, dislike_cities, recommend_cities):
-        self.ui.name.setText("Название города")
-        '''
         self.ui.text_like_cities.setText("Любимые города:")
         self.ui.text_dislike_cities.setText("Нелюбимые города:")
 
@@ -107,47 +160,24 @@ class mywindow(QMainWindow):
 
         for city in dislike_cities:
             self.ui.text_dislike_cities.append('  ' + city["Город"])
-        
-        self.init_table()
 
-        i = 0
-        for city in recommend_cities:
-            city_name = city["Город"]
-            city_region = city["Область"]
-            city_theme = city["Тематика"]
-            city_epoch = city["Историческая эпоха"]
-            city_ring = city["ЗК"]
-            city_direct = city["Направление"]
-            city_dist = city["Расстояние от Москвы"]
-            city_people = city["Население"]
-
-            name = QtWidgets.QTableWidgetItem(city_name)
-            font = QtGui.QFont()
-            font.setBold(True)
-            font.setWeight(75)
-            name.setFont(font)
-            
-            self.ui.tableWidget.setItem(0, i, QTableWidgetItem(name))
-            self.ui.tableWidget.setItem(1, i, QTableWidgetItem(city_region))
-            self.ui.tableWidget.setItem(2, i, QTableWidgetItem(city_theme))
-            self.ui.tableWidget.setItem(3, i, QTableWidgetItem(city_epoch))
-            self.ui.tableWidget.setItem(4, i, QTableWidgetItem(city_ring))
-            self.ui.tableWidget.setItem(5, i, QTableWidgetItem(city_direct))
-            self.ui.tableWidget.setItem(6, i, QTableWidgetItem(str(city_dist)))
-            self.ui.tableWidget.setItem(7, i, QTableWidgetItem(city_people))
-            i = i + 1
-        '''
+        self.output_city(self.ui.name_1, self.ui.properties_1, recommend_cities[0])
+        self.output_city(self.ui.name_2, self.ui.properties_2, recommend_cities[1])
+        self.output_city(self.ui.name_3, self.ui.properties_3, recommend_cities[2])
+        self.output_city(self.ui.name_4, self.ui.properties_4, recommend_cities[3])
+        self.output_city(self.ui.name_5, self.ui.properties_5, recommend_cities[4])
+        self.output_city(self.ui.name_6, self.ui.properties_6, recommend_cities[5])
 
 
     def btn_login_click(self):
         self.ui.frame_login.setVisible(False)
-        #self.ui.frame_search.setVisible(True)
-        #self.ui.frame_cities.setVisible(True)
+        self.ui.frame_search.setVisible(True)
+        self.ui.frame_cities.setVisible(True)
         self.ui.btn_back.setVisible(True)
 
-        user = self.ui.line_name_input.text()
-        user = "Max"
-        like_cities, dislike_cities, cities = login(user)
+        #self.user = self.ui.line_name_input.text()
+        self.user = "Max"
+        like_cities, dislike_cities, cities = login(self.user)
         
         if (cities):
             self.output_cities(like_cities, dislike_cities, cities)

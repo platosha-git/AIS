@@ -1,5 +1,19 @@
 from read_write_data import load_data
 
+def get_city_id_by_name(city_name):
+	data, nodes, data_fact = load_data()
+	idx = -1
+
+	num_cities = data.shape[0]
+	for i in range(num_cities):
+		cur_city = data.iloc[i]
+		if cur_city['Город'] == city_name:
+			idx = i
+			break
+
+	return idx
+
+
 def get_city_by_name(data, name):
 	res_city = None
 

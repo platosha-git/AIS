@@ -12,15 +12,23 @@ json_path = "./Nodes.json"
 html_path = "./Table.html"
 tree_path = "./Tree.json"
 
+
 def get_data_from_ods(ods_path):
     data = read_ods(ods_path, 1, headers=True)
     data.index = data.index + 1
     return data
 
+
 def get_data_from_json(json_path):
     with open(json_path) as f:
         data = json.load(f)
     return data
+
+
+def write_data_to_json(json_path, json_data):
+    with open(json_path, "w") as outfile:
+        json.dump(json_data, outfile)
+
 
 def write_data_to_html(data, html_path):
     f = open(html_path, 'w')
