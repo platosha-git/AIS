@@ -1628,11 +1628,11 @@ p, li { white-space: pre-wrap; }
     </property>
    </widget>
    <zorder>label_bkgrd</zorder>
+   <zorder>frame_cities</zorder>
    <zorder>btn_back</zorder>
    <zorder>frame_search</zorder>
    <zorder>frame_login</zorder>
    <zorder>text_found_cities</zorder>
-   <zorder>frame_cities</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

@@ -6,7 +6,7 @@ import sys
 from authorization import login
 from filter import find_cities_by_filters
 
-BACKGROUND_PATH = '/home/platosha/Desktop/BMSTU/1Msem/AIS/lab3.1/background.png'
+BACKGROUND_PATH = '/home/platosha/Desktop/BMSTU/1Msem/AIS/lab4/img/background.png'
 
 class mywindow(QMainWindow):
     def __init__(self):
@@ -38,7 +38,7 @@ class mywindow(QMainWindow):
         distance = self.ui.combo_distance.currentText()
 
         cities = find_cities_by_filters(name, theme, in_ring, out_ring, distance)
-
+        
         for city in cities:
             self.ui.text_found_cities.append(city.to_string())
 

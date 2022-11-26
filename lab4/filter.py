@@ -85,23 +85,26 @@ def get_cities_by_distance(data, cities, distance):
 def find_cities_by_filters(name, theme, in_ring, out_ring, distance):
 	data, nodes, data_fact = load_data()
 
+	num_cities = data.shape[0]
 	cities = []
+	for i in range(num_cities):
+		cities.append(data.iloc[i])
+
 	if name:
 		city = get_city_by_name(data, name)
-		cities.append(city)
+		cities = [city]
 		return cities
 	
 	if theme != 'Тематика':
 		theme_cities = get_cities_by_theme(data, theme)
-		cities = cities + theme_cities
 
 	if in_ring:
-		cities = get_cities_in_ring(data, cities)
+		in_ring_cities = get_cities_in_ring(data)
 
 	if out_ring:
-		cities = get_cities_out_ring(data, cities)
+		out_ring_cities = get_cities_out_ring(data)
 
 	if distance != 'Расстояние от Москвы':
-		cities = get_cities_by_distance(data, cities, distance)
+		distance_cities = get_cities_by_distance(data, distance)
 
 	return cities
