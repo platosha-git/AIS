@@ -136,86 +136,12 @@ class mywindow(QMainWindow):
 
 		cities = find_cities_by_filters(name, theme, in_ring, out_ring, distance)       
 		
-		self.frame_city_7, self.name_7, self.properties_7, self.btn_like_7, self.btn_dislike_7 = add_form(self.ui.scrollAreaWidgetContents)  
+		self.frame_city_7, self.name_7, self.properties_7, self.btn_like_7, self.btn_dislike_7 = \
+			add_frame(self.ui.scrollAreaWidgetContents)  
 		self.ui.gridLayout.addWidget(self.frame_city_7, 3, 0, 1, 1)
 
 		self.output_cities(cities)
 		self.output_city(self.name_7, self.properties_7, cities[0])
-
-	# def add_form(self):
-
-	# 	frame_city = QtWidgets.QFrame(self.ui.scrollAreaWidgetContents)
-	# 	self.frame_city_7 = frame_city
-
-	# 	sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-	# 	sizePolicy.setHorizontalStretch(0)
-	# 	sizePolicy.setVerticalStretch(0)
-	# 	sizePolicy.setHeightForWidth(self.frame_city_7.sizePolicy().hasHeightForWidth())
-	# 	self.frame_city_7.setSizePolicy(sizePolicy)
-	# 	self.frame_city_7.setMinimumSize(QtCore.QSize(301, 271))
-		
-	# 	palette = define_form_palette()
-		
-	# 	self.frame_city_7.setPalette(palette)
-	# 	self.frame_city_7.setAutoFillBackground(True)
-	# 	self.frame_city_7.setFrameShape(QtWidgets.QFrame.StyledPanel)
-	# 	self.frame_city_7.setFrameShadow(QtWidgets.QFrame.Raised)
-	# 	self.frame_city_7.setObjectName("frame_city_7")
-	# 	self.name_7 = QtWidgets.QLabel(self.frame_city_7)
-	# 	self.name_7.setGeometry(QtCore.QRect(10, 10, 281, 41))
-
-	# 	palette = define_name_palette()
-
-		
-	# 	self.name_7.setPalette(palette)
-	# 	font = QtGui.QFont()
-	# 	font.setPointSize(13)
-	# 	font.setBold(True)
-	# 	font.setWeight(75)
-	# 	self.name_7.setFont(font)
-	# 	self.name_7.setLayoutDirection(QtCore.Qt.LeftToRight)
-	# 	self.name_7.setFrameShape(QtWidgets.QFrame.StyledPanel)
-	# 	self.name_7.setLineWidth(2)
-	# 	self.name_7.setText("")
-	# 	self.name_7.setAlignment(QtCore.Qt.AlignCenter)
-	# 	self.name_7.setObjectName("name_7")
-	# 	self.properties_7 = QtWidgets.QTextBrowser(self.frame_city_7)
-	# 	self.properties_7.setGeometry(QtCore.QRect(10, 70, 281, 131))
-		
-	# 	palette = define_name_palette()
-
-	# 	self.properties_7.setPalette(palette)
-	# 	font = QtGui.QFont()
-	# 	font.setPointSize(13)
-	# 	self.properties_7.setFont(font)
-	# 	self.properties_7.setObjectName("properties_7")
-	# 	self.btn_like_7 = QtWidgets.QPushButton(self.frame_city_7)
-	# 	self.btn_like_7.setGeometry(QtCore.QRect(20, 220, 121, 31))
-
-	# 	palette = define_property_palette()
-
-	# 	self.btn_like_7.setPalette(palette)
-	# 	font = QtGui.QFont()
-	# 	font.setPointSize(13)
-	# 	font.setStyleStrategy(QtGui.QFont.PreferDefault)
-	# 	self.btn_like_7.setFont(font)
-	# 	self.btn_like_7.setObjectName("btn_like_7")
-	# 	self.btn_dislike_7 = QtWidgets.QPushButton(self.frame_city_7)
-	# 	self.btn_dislike_7.setGeometry(QtCore.QRect(150, 220, 121, 31))
-		
-	# 	palette = define_property_palette()
-		
-	# 	self.btn_dislike_7.setPalette(palette)
-	# 	font = QtGui.QFont()
-	# 	font.setPointSize(13)
-	# 	font.setStyleStrategy(QtGui.QFont.PreferDefault)
-	# 	self.btn_dislike_7.setFont(font)
-	# 	self.btn_dislike_7.setObjectName("btn_dislike_7")
-	# 	self.ui.gridLayout.addWidget(self.frame_city_7, 3, 0, 1, 1) 
-
-	# 	_translate = QtCore.QCoreApplication.translate
-	# 	self.btn_like_7.setText(_translate("MainWindow", "Нравится"))
-	# 	self.btn_dislike_7.setText(_translate("MainWindow", "Не нравится"))
 
 
 	def btn_back_click(self):

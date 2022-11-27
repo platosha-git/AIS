@@ -116,23 +116,7 @@ def define_property_palette():
 	return palette
 
 
-
-def add_form(scrollArea):
-	frame_city = QtWidgets.QFrame(scrollArea)
-
-	sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-	sizePolicy.setHorizontalStretch(0)
-	sizePolicy.setVerticalStretch(0)
-	sizePolicy.setHeightForWidth(frame_city.sizePolicy().hasHeightForWidth())
-	frame_city.setSizePolicy(sizePolicy)
-	frame_city.setMinimumSize(QtCore.QSize(301, 271))
-
-	palette = define_form_palette()
-	frame_city.setPalette(palette)
-	frame_city.setAutoFillBackground(True)
-	frame_city.setFrameShape(QtWidgets.QFrame.StyledPanel)
-	frame_city.setFrameShadow(QtWidgets.QFrame.Raised)
-	frame_city.setObjectName("frame_city_7")
+def add_name(frame_city):
 	name = QtWidgets.QLabel(frame_city)
 	name.setGeometry(QtCore.QRect(10, 10, 281, 41))
 
@@ -150,6 +134,10 @@ def add_form(scrollArea):
 	name.setText("")
 	name.setAlignment(QtCore.Qt.AlignCenter)
 	name.setObjectName("name_7")
+
+	return name
+
+def add_properties(frame_city):
 	properties = QtWidgets.QTextBrowser(frame_city)
 	properties.setGeometry(QtCore.QRect(10, 70, 281, 131))
 
@@ -159,6 +147,10 @@ def add_form(scrollArea):
 	font.setPointSize(13)
 	properties.setFont(font)
 	properties.setObjectName("properties_7")
+
+	return properties
+
+def add_btn_like(frame_city):
 	btn_like = QtWidgets.QPushButton(frame_city)
 	btn_like.setGeometry(QtCore.QRect(20, 220, 121, 31))
 
@@ -169,6 +161,10 @@ def add_form(scrollArea):
 	font.setStyleStrategy(QtGui.QFont.PreferDefault)
 	btn_like.setFont(font)
 	btn_like.setObjectName("btn_like_7")
+
+	return btn_like
+
+def add_btn_dislike(frame_city):
 	btn_dislike = QtWidgets.QPushButton(frame_city)
 	btn_dislike.setGeometry(QtCore.QRect(150, 220, 121, 31))
 
@@ -180,6 +176,31 @@ def add_form(scrollArea):
 	btn_dislike.setFont(font)
 	btn_dislike.setObjectName("btn_dislike_7")
 
+	return btn_dislike
+
+def add_frame(scrollArea):
+	frame_city = QtWidgets.QFrame(scrollArea)
+
+	sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+	sizePolicy.setHorizontalStretch(0)
+	sizePolicy.setVerticalStretch(0)
+	sizePolicy.setHeightForWidth(frame_city.sizePolicy().hasHeightForWidth())
+	frame_city.setSizePolicy(sizePolicy)
+	frame_city.setMinimumSize(QtCore.QSize(301, 271))
+
+	palette = define_form_palette()
+	frame_city.setPalette(palette)
+	frame_city.setAutoFillBackground(True)
+	frame_city.setFrameShape(QtWidgets.QFrame.StyledPanel)
+	frame_city.setFrameShadow(QtWidgets.QFrame.Raised)
+	frame_city.setObjectName("frame_city_7")
+
+	name = add_name(frame_city)
+	properties = add_properties(frame_city)
+	
+	btn_like = add_btn_like(frame_city)
+	btn_dislike = add_btn_dislike(frame_city)
+	
 	_translate = QtCore.QCoreApplication.translate
 	btn_like.setText(_translate("MainWindow", "Нравится"))
 	btn_dislike.setText(_translate("MainWindow", "Не нравится")) 
