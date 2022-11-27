@@ -116,7 +116,7 @@ def define_property_palette():
 	return palette
 
 
-def add_name(frame_city):
+def add_name(frame_city, idx):
 	name = QtWidgets.QLabel(frame_city)
 	name.setGeometry(QtCore.QRect(10, 10, 281, 41))
 
@@ -133,11 +133,11 @@ def add_name(frame_city):
 	name.setLineWidth(2)
 	name.setText("")
 	name.setAlignment(QtCore.Qt.AlignCenter)
-	name.setObjectName("name_7")
+	name.setObjectName("name_" + str(idx))
 
 	return name
 
-def add_properties(frame_city):
+def add_properties(frame_city, idx):
 	properties = QtWidgets.QTextBrowser(frame_city)
 	properties.setGeometry(QtCore.QRect(10, 70, 281, 131))
 
@@ -146,11 +146,11 @@ def add_properties(frame_city):
 	font = QtGui.QFont()
 	font.setPointSize(13)
 	properties.setFont(font)
-	properties.setObjectName("properties_7")
+	properties.setObjectName("properties_" + str(idx))
 
 	return properties
 
-def add_btn_like(frame_city):
+def add_btn_like(frame_city, idx):
 	btn_like = QtWidgets.QPushButton(frame_city)
 	btn_like.setGeometry(QtCore.QRect(20, 220, 121, 31))
 
@@ -160,11 +160,11 @@ def add_btn_like(frame_city):
 	font.setPointSize(13)
 	font.setStyleStrategy(QtGui.QFont.PreferDefault)
 	btn_like.setFont(font)
-	btn_like.setObjectName("btn_like_7")
+	btn_like.setObjectName("btn_like_" + str(idx))
 
 	return btn_like
 
-def add_btn_dislike(frame_city):
+def add_btn_dislike(frame_city, idx):
 	btn_dislike = QtWidgets.QPushButton(frame_city)
 	btn_dislike.setGeometry(QtCore.QRect(150, 220, 121, 31))
 
@@ -174,11 +174,11 @@ def add_btn_dislike(frame_city):
 	font.setPointSize(13)
 	font.setStyleStrategy(QtGui.QFont.PreferDefault)
 	btn_dislike.setFont(font)
-	btn_dislike.setObjectName("btn_dislike_7")
+	btn_dislike.setObjectName("btn_dislike_" + str(idx))
 
 	return btn_dislike
 
-def add_frame(scrollArea):
+def add_frame(scrollArea, idx):
 	frame_city = QtWidgets.QFrame(scrollArea)
 
 	sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -193,13 +193,13 @@ def add_frame(scrollArea):
 	frame_city.setAutoFillBackground(True)
 	frame_city.setFrameShape(QtWidgets.QFrame.StyledPanel)
 	frame_city.setFrameShadow(QtWidgets.QFrame.Raised)
-	frame_city.setObjectName("frame_city_7")
+	frame_city.setObjectName("frame_city_" + str(idx))
 
-	name = add_name(frame_city)
-	properties = add_properties(frame_city)
+	name = add_name(frame_city, idx)
+	properties = add_properties(frame_city, idx)
 	
-	btn_like = add_btn_like(frame_city)
-	btn_dislike = add_btn_dislike(frame_city)
+	btn_like = add_btn_like(frame_city, idx)
+	btn_dislike = add_btn_dislike(frame_city, idx)
 	
 	_translate = QtCore.QCoreApplication.translate
 	btn_like.setText(_translate("MainWindow", "Нравится"))

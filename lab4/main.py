@@ -2,6 +2,8 @@ from mainwindow import Ui_MainWindow
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QMessageBox, QTextEdit, QScrollArea
 import sys
+import math
+from functools import partial
 
 from forms import *
 from authorization import *
@@ -25,83 +27,48 @@ class mywindow(QMainWindow):
 		self.ui.btn_back.clicked.connect(self.btn_back_click)
 		self.ui.btn_find.clicked.connect(self.btn_find_click)
 
-		self.ui.btn_like_1.clicked.connect(self.btn_like1_click)
-		self.ui.btn_like_2.clicked.connect(self.btn_like2_click)
-		self.ui.btn_like_3.clicked.connect(self.btn_like3_click)
-		self.ui.btn_like_4.clicked.connect(self.btn_like4_click)
-		self.ui.btn_like_5.clicked.connect(self.btn_like5_click)
-		self.ui.btn_like_6.clicked.connect(self.btn_like6_click)
+		self.city_names = [self.ui.name_1, self.ui.name_2, self.ui.name_3, \
+							self.ui.name_4, self.ui.name_5, self.ui.name_6]
+		self.properties = [self.ui.properties_1, self.ui.properties_2, self.ui.properties_3, \
+							self.ui.properties_4, self.ui.properties_5, self.ui.properties_6]
 
-		self.ui.btn_dislike_1.clicked.connect(self.btn_dislike1_click)
-		self.ui.btn_dislike_2.clicked.connect(self.btn_dislike2_click)
-		self.ui.btn_dislike_3.clicked.connect(self.btn_dislike3_click)
-		self.ui.btn_dislike_4.clicked.connect(self.btn_dislike4_click)
-		self.ui.btn_dislike_5.clicked.connect(self.btn_dislike5_click)
-		self.ui.btn_dislike_6.clicked.connect(self.btn_dislike6_click)
+		self.btns_like = [self.ui.btn_like_1, self.ui.btn_like_2, self.ui.btn_like_3, \
+		 					self.ui.btn_like_4, self.ui.btn_like_5, self.ui.btn_like_6]
+		self.btns_dislike = [self.ui.btn_dislike_1, self.ui.btn_dislike_2, self.ui.btn_dislike_3, \
+		 					self.ui.btn_dislike_4, self.ui.btn_dislike_5, self.ui.btn_dislike_6]
+		
+
+		self.connect_like_click()
+		self.connect_dislike_click()
+
 
 		self.ui.btn_delete_like.clicked.connect(self.btn_delete_like_click)
 		self.ui.btn_delete_dislike.clicked.connect(self.btn_delete_dislike_click)
 
 
-	def btn_like1_click(self):
-		city_name = self.ui.name_1.text()
-		self.btn_like_click(city_name)
-
-	def btn_like2_click(self):
-		city_name = self.ui.name_2.text()
-		self.btn_like_click(city_name)
-	
-	def btn_like3_click(self):
-		city_name = self.ui.name_3.text()
-		self.btn_like_click(city_name)
-	
-	def btn_like4_click(self):
-		city_name = self.ui.name_4.text()
-		self.btn_like_click(city_name)
-	
-	def btn_like5_click(self):
-		city_name = self.ui.name_5.text()
-		self.btn_like_click(city_name)
-	
-	def btn_like6_click(self):
-		city_name = self.ui.name_6.text()
-		self.btn_like_click(city_name)
+	def connect_like_click(self):
+		for i in range(len(self.btns_like)):
+			city_name = self.city_names[i]
+			self.btns_like[i].clicked.connect(partial(self.btn_like_click, city_name))
 
 	def btn_like_click(self, city_name):
 		self.clear_properties()
+		city_name = city_name.text()
 		
 		like_cities, dislike_cities, cities = update_likes(self.user, city_name)
 		if (cities):
 			self.output_recommend_cities(like_cities, dislike_cities, cities)
 
 
-	def btn_dislike1_click(self):
-		city_name = self.ui.name_1.text()
-		self.btn_dislike_click(city_name)
-
-	def btn_dislike2_click(self):
-		city_name = self.ui.name_2.text()
-		self.btn_dislike_click(city_name)
-	
-	def btn_dislike3_click(self):
-		city_name = self.ui.name_3.text()
-		self.btn_dislike_click(city_name)
-	
-	def btn_dislike4_click(self):
-		city_name = self.ui.name_4.text()
-		self.btn_dislike_click(city_name)
-	
-	def btn_dislike5_click(self):
-		city_name = self.ui.name_5.text()
-		self.btn_dislike_click(city_name)
-	
-	def btn_dislike6_click(self):
-		city_name = self.ui.name_6.text()
-		self.btn_dislike_click(city_name)
+	def connect_dislike_click(self):
+		for i in range(len(self.btns_dislike)):
+			city_name = self.city_names[i]
+			self.btns_dislike[i].clicked.connect(partial(self.btn_dislike_click, city_name))
 
 	def btn_dislike_click(self, city_name):
 		self.clear_properties()
-		
+		city_name = city_name.text()
+
 		like_cities, dislike_cities, cities = update_dislikes(self.user, city_name)
 		if (cities):
 			self.output_recommend_cities(like_cities, dislike_cities, cities)
@@ -115,7 +82,6 @@ class mywindow(QMainWindow):
 			like_cities, dislike_cities, cities = update_likes(self.user)
 			if (cities):
 				self.output_recommend_cities(like_cities, dislike_cities, cities)
-
 
 	def btn_delete_dislike_click(self):
 		self.clear_properties()
@@ -134,14 +100,21 @@ class mywindow(QMainWindow):
 		out_ring = self.ui.check_out_ring.isChecked()
 		distance = self.ui.combo_distance.currentText()
 
-		cities = find_cities_by_filters(name, theme, in_ring, out_ring, distance)       
-		
-		self.frame_city_7, self.name_7, self.properties_7, self.btn_like_7, self.btn_dislike_7 = \
-			add_frame(self.ui.scrollAreaWidgetContents)  
-		self.ui.gridLayout.addWidget(self.frame_city_7, 3, 0, 1, 1)
+		cities = find_cities_by_filters(name, theme, in_ring, out_ring, distance)
+		for i in range(7, len(cities) + 1):
+			frame_city, name, properties, btn_like, btn_dislike = \
+				add_frame(self.ui.scrollAreaWidgetContents, i)   
+			self.ui.gridLayout.addWidget(frame_city, math.ceil(i / 3), (i-1) % 3, 1, 1)   
+
+			self.city_names.append(name)
+			self.properties.append(properties)
+			self.btns_like.append(btn_like)
+			self.btns_dislike.append(btn_dislike)
+
+		self.connect_like_click()
+		self.connect_dislike_click()
 
 		self.output_cities(cities)
-		self.output_city(self.name_7, self.properties_7, cities[0])
 
 
 	def btn_back_click(self):
@@ -155,13 +128,11 @@ class mywindow(QMainWindow):
 
 		logout(self.user)
 
+
 	def clear_properties(self):
-		self.ui.properties_1.clear()
-		self.ui.properties_2.clear()
-		self.ui.properties_3.clear()
-		self.ui.properties_4.clear()
-		self.ui.properties_5.clear()
-		self.ui.properties_6.clear()
+		for cur_property in self.properties:
+			cur_property.clear()
+
 
 	def output_city(self, name, properties, city):
 		name.setText(city["Город"])
@@ -188,12 +159,11 @@ class mywindow(QMainWindow):
 
 
 	def output_cities(self, cities):
-		self.output_city(self.ui.name_1, self.ui.properties_1, cities[0])
-		self.output_city(self.ui.name_2, self.ui.properties_2, cities[1])
-		self.output_city(self.ui.name_3, self.ui.properties_3, cities[2])
-		self.output_city(self.ui.name_4, self.ui.properties_4, cities[3])
-		self.output_city(self.ui.name_5, self.ui.properties_5, cities[4])
-		self.output_city(self.ui.name_6, self.ui.properties_6, cities[5])
+		for i in range(len(self.city_names)):
+			cur_name = self.city_names[i]
+			cur_property = self.properties[i]
+			cur_city = cities[i]
+			self.output_city(cur_name, cur_property, cur_city)
 
 
 	def btn_login_click(self):
