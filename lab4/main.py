@@ -1,6 +1,6 @@
 from mainwindow import Ui_MainWindow
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QMessageBox, QTextEdit
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QMessageBox, QTextEdit, QScrollArea
 import sys
 
 from authorization import *
@@ -71,7 +71,7 @@ class mywindow(QMainWindow):
         
         like_cities, dislike_cities, cities = update_likes(self.user, city_name)
         if (cities):
-            self.output_cities(like_cities, dislike_cities, cities)
+            self.output_recommend_cities(like_cities, dislike_cities, cities)
 
 
     def btn_dislike1_click(self):
@@ -103,7 +103,7 @@ class mywindow(QMainWindow):
         
         like_cities, dislike_cities, cities = update_dislikes(self.user, city_name)
         if (cities):
-            self.output_cities(like_cities, dislike_cities, cities)
+            self.output_recommend_cities(like_cities, dislike_cities, cities)
 
 
     def btn_delete_like_click(self):
@@ -113,7 +113,7 @@ class mywindow(QMainWindow):
         if (len(likes) > 20):
             like_cities, dislike_cities, cities = update_likes(self.user)
             if (cities):
-                self.output_cities(like_cities, dislike_cities, cities)
+                self.output_recommend_cities(like_cities, dislike_cities, cities)
 
 
     def btn_delete_dislike_click(self):
@@ -121,14 +121,11 @@ class mywindow(QMainWindow):
         
         like_cities, dislike_cities, cities = update_dislikes(self.user)
         if (cities):
-            self.output_cities(like_cities, dislike_cities, cities)
+            self.output_recommend_cities(like_cities, dislike_cities, cities)
 
 
     def btn_find_click(self):
-        self.ui.frame_cities.setVisible(False)
-        self.ui.frame_search.setVisible(True)
-        self.ui.text_found_cities.setVisible(True)
-        self.ui.text_found_cities.clear()
+        self.clear_properties()
 
         name = self.ui.line_city_input.text()
         theme = self.ui.combo_theme.currentText()
@@ -137,9 +134,7 @@ class mywindow(QMainWindow):
         distance = self.ui.combo_distance.currentText()
 
         cities = find_cities_by_filters(name, theme, in_ring, out_ring, distance)
-        
-        for city in cities:
-            self.ui.text_found_cities.append(city.to_string())
+        self.output_cities(cities)            
 
 
     def btn_back_click(self):
@@ -172,7 +167,7 @@ class mywindow(QMainWindow):
         properties.append("Население: " + city["Население"])
 
 
-    def output_cities(self, like_cities, dislike_cities, recommend_cities):
+    def output_recommend_cities(self, like_cities, dislike_cities, recommend_cities):
         self.ui.text_like_cities.setText("Любимые города:")
         self.ui.text_dislike_cities.setText("Нелюбимые города:")
 
@@ -182,13 +177,16 @@ class mywindow(QMainWindow):
         for city in dislike_cities:
             self.ui.text_dislike_cities.append('  ' + city["Город"])
 
-        self.output_city(self.ui.name_1, self.ui.properties_1, recommend_cities[0])
-        self.output_city(self.ui.name_2, self.ui.properties_2, recommend_cities[1])
-        self.output_city(self.ui.name_3, self.ui.properties_3, recommend_cities[2])
-        self.output_city(self.ui.name_4, self.ui.properties_4, recommend_cities[3])
-        self.output_city(self.ui.name_5, self.ui.properties_5, recommend_cities[4])
-        self.output_city(self.ui.name_6, self.ui.properties_6, recommend_cities[5])
+        self.output_cities(recommend_cities)
 
+
+    def output_cities(self, cities):
+        self.output_city(self.ui.name_1, self.ui.properties_1, cities[0])
+        self.output_city(self.ui.name_2, self.ui.properties_2, cities[1])
+        self.output_city(self.ui.name_3, self.ui.properties_3, cities[2])
+        self.output_city(self.ui.name_4, self.ui.properties_4, cities[3])
+        self.output_city(self.ui.name_5, self.ui.properties_5, cities[4])
+        self.output_city(self.ui.name_6, self.ui.properties_6, cities[5])
 
     def btn_login_click(self):
         self.user = "Max"
@@ -200,7 +198,7 @@ class mywindow(QMainWindow):
             self.ui.btn_back.setVisible(True)
             
             like_cities, dislike_cities, cities = login(self.user)
-            self.output_cities(like_cities, dislike_cities, cities)
+            self.output_recommend_cities(like_cities, dislike_cities, cities)
 
 
 
