@@ -35,7 +35,11 @@ def login(username):
 	load_array_likes_array_dislikes(username)
 
 	like_cities, dislike_cities, cities = recommend(array_likes, array_dislikes)
+	return like_cities, dislike_cities, cities
 
+
+def get_recommend_cities():
+	like_cities, dislike_cities, cities = recommend(array_likes, array_dislikes)
 	return like_cities, dislike_cities, cities
 
 
@@ -80,7 +84,6 @@ def add_dislike(username, city_name):
 	dislike_city_id = get_city_id_by_name(city_name)
 	array_dislikes.append(dislike_city_id)
 
-	like_cities, dislike_cities, cities = [], [], []
 	like_cities, dislike_cities, cities = recommend(array_likes, array_dislikes)
 
 	return like_cities, dislike_cities, cities

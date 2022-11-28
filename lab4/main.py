@@ -26,6 +26,7 @@ class mywindow(QMainWindow):
 		self.ui.btn_login.clicked.connect(self.btn_login_click)
 		self.ui.btn_back.clicked.connect(self.btn_back_click)
 		self.ui.btn_find.clicked.connect(self.btn_find_click)
+		self.ui.btn_recommend.clicked.connect(self.btn_recommend_click)
 
 
 		self.frame_cities = [self.ui.frame_city_1, self.ui.frame_city_2, self.ui.frame_city_3, \
@@ -234,6 +235,28 @@ class mywindow(QMainWindow):
 			
 			like_cities, dislike_cities, cities = login(self.user)
 			self.output_recommend_cities(like_cities, dislike_cities, cities)
+
+
+	def btn_recommend_click(self):
+		self.clear_frames()
+
+		like_cities, dislike_cities, cities = get_recommend_cities()
+
+		for i in range(6):
+			frame_city, name, properties, btn_like, btn_dislike = \
+				add_frame(self.ui.scrollAreaWidgetContents, i)   
+			self.ui.gridLayout.addWidget(frame_city, math.floor((i+3) / 3), i % 3, 1, 1)   
+
+			self.frame_cities.append(frame_city)
+			self.city_names.append(name)
+			self.properties.append(properties)
+			self.btns_like.append(btn_like)
+			self.btns_dislike.append(btn_dislike)
+
+		if cities:
+			self.connect_like_click()
+			self.connect_dislike_click()
+			self.output_cities(cities)
 
 
 
