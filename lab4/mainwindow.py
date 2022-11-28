@@ -275,7 +275,7 @@ class Ui_MainWindow(object):
         self.line_city_input = QtWidgets.QLineEdit(self.frame_search)
         self.line_city_input.setGeometry(QtCore.QRect(10, 30, 111, 31))
         font = QtGui.QFont()
-        font.setPointSize(25)
+        font.setPointSize(14)
         self.line_city_input.setFont(font)
         self.line_city_input.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.line_city_input.setAlignment(QtCore.Qt.AlignCenter)

@@ -27,54 +27,28 @@ def get_city_by_name(data, name):
 	return res_city
 
 
-def get_cities_by_theme(data, theme):
+def get_cities_by_theme(full_cities, theme):
 	res_cities = []
 
-	num_cities = data.shape[0]
-	for i in range(num_cities):
-		cur_city = data.iloc[i]
-		if cur_city['Тематика'] == theme:
-			res_cities.append(cur_city)
+	for city in full_cities:
+		if city['Тематика'] == theme:
+			res_cities.append(city)
 
 	return res_cities
 
 
-def get_cities_in_ring(data, cities):
-	res_cities = cities
+def get_cities_by_ring(full_cities, ring):
+	res_cities = []
 
-	if res_cities:
-		for city in res_cities:
-			if city['ЗК'] == '-':
-				res_cities.remove(city)
-	else:
-		num_cities = data.shape[0]
-		for i in range(num_cities):
-			cur_city = data.iloc[i]
-			if cur_city['ЗК'] == '+':
-				res_cities.append(cur_city)
+	for city in full_cities:
+		if city['ЗК'] == ring:
+			res_cities.append(city)
 
 	return res_cities
 
 
-def get_cities_out_ring(data, cities):
-	res_cities = cities
-
-	if res_cities:
-		for city in res_cities:
-			if city['ЗК'] == '+':
-				res_cities.remove(city)
-	else:
-		num_cities = data.shape[0]
-		for i in range(num_cities):
-			cur_city = data.iloc[i]
-			if cur_city['ЗК'] == '-':
-				res_cities.append(cur_city)
-
-	return res_cities
-
-
-def get_cities_by_distance(data, cities, distance):
-	res_cities = cities
+def get_cities_by_distance(full_cities, distance):
+	res_cities = []
 	low_dist, high_dist = 0, 10000
 
 	if distance == 'До 100 км': high_dist = 100
@@ -82,16 +56,9 @@ def get_cities_by_distance(data, cities, distance):
 	if distance == '200 - 500': low_dist, high_dist = 200, 500
 	if distance == 'Более 500 км': low_dist = 500
 
-	if res_cities:
-		for city in res_cities:
-			if city['Расстояние от Москвы'] < low_dist or city['Расстояние от Москвы'] > high_dist:
-				res_cities.remove(city)
-	else:
-		num_cities = data.shape[0]
-		for i in range(num_cities):
-			cur_city = data.iloc[i]
-			if cur_city['Расстояние от Москвы'] > low_dist and cur_city['Расстояние от Москвы'] < high_dist:
-				res_cities.append(cur_city)
+	for city in full_cities:
+		if city['Расстояние от Москвы'] > low_dist and city['Расстояние от Москвы'] < high_dist:
+			res_cities.append(city)
 
 	return res_cities
 
@@ -101,24 +68,25 @@ def find_cities_by_filters(name, theme, in_ring, out_ring, distance):
 
 	num_cities = data.shape[0]
 	cities = []
-	for i in range(num_cities):
-		cities.append(data.iloc[i])
 
 	if name:
 		city = get_city_by_name(data, name)
 		cities = [city]
 		return cities
+
+	for i in range(num_cities):
+		cities.append(data.iloc[i])
 	
 	if theme != 'Тематика':
-		theme_cities = get_cities_by_theme(data, theme)
+		cities = get_cities_by_theme(cities, theme)
 
 	if in_ring:
-		in_ring_cities = get_cities_in_ring(data)
+		cities = get_cities_by_ring(cities, '+')
 
 	if out_ring:
-		out_ring_cities = get_cities_out_ring(data)
+		cities = get_cities_by_ring(cities, '-')
 
 	if distance != 'Расстояние от Москвы':
-		distance_cities = get_cities_by_distance(data, distance)
+		cities = get_cities_by_distance(cities, distance)
 
 	return cities
