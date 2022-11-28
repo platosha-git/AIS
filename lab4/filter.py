@@ -1,5 +1,14 @@
 from read_write_data import load_data
 
+def init_cities(data, num_cities):
+	cities = []
+
+	for i in range(num_cities):
+		cities.append(data.iloc[i])
+
+	return cities
+
+
 def get_city_id_by_name(city_name):
 	data, nodes, data_fact = load_data()
 	idx = -1
@@ -63,21 +72,23 @@ def get_cities_by_distance(full_cities, distance):
 	return res_cities
 
 
-def find_cities_by_filters(name, theme, in_ring, out_ring, distance):
-	data, nodes, data_fact = load_data()
+def define_similar_theme(theme):
+	similar_theme = theme
 
-	num_cities = data.shape[0]
-	cities = []
+	if theme == "Пляжный отдых": similar_theme = "Гастрономия"
+	if theme == "Гастрономия": similar_theme = "Пляжный отдых"
+	if theme == "Промысел": similar_theme = "Гастрономия"
+	if theme == "История": similar_theme = "Паломничество"
+	if theme == "Паломничество": similar_theme = "История"
 
-	if name:
-		city = get_city_by_name(data, name)
-		cities = [city]
-		return cities
+	return similar_theme
 
-	for i in range(num_cities):
-		cities.append(data.iloc[i])
-	
+
+def get_cities_by_another_filter(data, theme, in_ring, out_ring, distance):
+	cities = init_cities(data, data.shape[0])
+
 	if theme != 'Тематика':
+		theme = define_similar_theme(theme)
 		cities = get_cities_by_theme(cities, theme)
 
 	if in_ring:
@@ -90,3 +101,33 @@ def find_cities_by_filters(name, theme, in_ring, out_ring, distance):
 		cities = get_cities_by_distance(cities, distance)
 
 	return cities
+
+
+def find_cities_by_filters(name, theme, in_ring, out_ring, distance):
+	data, nodes, data_fact = load_data()
+	another_filter = False
+
+	if name:
+		city = get_city_by_name(data, name)
+		cities = [city]
+		return cities, another_filter
+
+	cities = init_cities(data, data.shape[0])
+
+	if theme != 'Тематика':
+		cities = get_cities_by_theme(cities, theme)
+
+	if in_ring:
+		cities = get_cities_by_ring(cities, '+')
+
+	if out_ring:
+		cities = get_cities_by_ring(cities, '-')
+
+	if distance != 'Расстояние от Москвы':
+		cities = get_cities_by_distance(cities, distance)
+
+	if len(cities) == 0:
+		another_filter = True
+		cities = get_cities_by_another_filter(data, theme, in_ring, out_ring, distance)
+
+	return cities, another_filter

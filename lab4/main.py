@@ -21,11 +21,12 @@ class mywindow(QMainWindow):
 		self.ui.frame_login.setVisible(True)
 		self.ui.frame_cities.setVisible(False)
 		self.ui.frame_search.setVisible(False)
-		self.ui.btn_back.setVisible(False)
+		self.ui.frame_logout.setVisible(False)
 
 		self.ui.btn_login.clicked.connect(self.btn_login_click)
 		self.ui.btn_back.clicked.connect(self.btn_back_click)
 		self.ui.btn_find.clicked.connect(self.btn_find_click)
+
 
 		self.frame_cities = [self.ui.frame_city_1, self.ui.frame_city_2, self.ui.frame_city_3, \
 							self.ui.frame_city_4, self.ui.frame_city_5, self.ui.frame_city_6]
@@ -57,7 +58,6 @@ class mywindow(QMainWindow):
 			else:
 				self.btns_like[i].clicked.connect(partial(self.btn_like_click, city_name))
 
-
 	def btn_like_click(self, city_name):
 		self.clear_properties()
 		city_name = city_name.text()
@@ -71,6 +71,7 @@ class mywindow(QMainWindow):
 		like_cities, dislike_cities, cities = update_likes(self.user, city_name)
 
 		self.output_header_likes_dislikes(like_cities, dislike_cities)
+
 
 
 	def connect_dislike_click(self, filter_mode=False):
@@ -124,7 +125,7 @@ class mywindow(QMainWindow):
 		out_ring = self.ui.check_out_ring.isChecked()
 		distance = self.ui.combo_distance.currentText()
 
-		cities = find_cities_by_filters(name, theme, in_ring, out_ring, distance)
+		cities, another_filter = find_cities_by_filters(name, theme, in_ring, out_ring, distance)
 
 		for i in range(len(cities)):
 			frame_city, name, properties, btn_like, btn_dislike = \
@@ -136,6 +137,9 @@ class mywindow(QMainWindow):
 			self.properties.append(properties)
 			self.btns_like.append(btn_like)
 			self.btns_dislike.append(btn_dislike)
+
+		if another_filter:
+			self.output_warning()
 
 		if cities:
 			self.connect_like_click(filter_mode=True)
@@ -158,12 +162,19 @@ class mywindow(QMainWindow):
 		del self.btns_like[0:]
 		del self.btns_dislike[0:]
 
+	def output_warning(self):
+		msg = QMessageBox()
+		msg.setText("По вашему запросу ничего не найдено.\nВозможно, вам понравятся следующие города...")
+		msg.setIcon(QMessageBox.Information)
+		msg.exec_()
+
+
 
 	def btn_back_click(self):
 		self.ui.frame_cities.setVisible(False)
 		self.ui.frame_search.setVisible(False)
 		self.ui.frame_login.setVisible(True)
-		self.ui.btn_back.setVisible(False)
+		self.ui.frame_logout.setVisible(False)
 		
 		self.ui.line_name_input.clear()
 		self.clear_properties()
@@ -219,7 +230,7 @@ class mywindow(QMainWindow):
 			self.ui.frame_login.setVisible(False)
 			self.ui.frame_search.setVisible(True)
 			self.ui.frame_cities.setVisible(True)
-			self.ui.btn_back.setVisible(True)
+			self.ui.frame_logout.setVisible(True)
 			
 			like_cities, dislike_cities, cities = login(self.user)
 			self.output_recommend_cities(like_cities, dislike_cities, cities)
