@@ -43,4 +43,76 @@ def output_cities(phrase, selected_attributes):
 			print('---------------------\n')
 
 	if count == 0:
-		print('\nНичего не смогла найти(((')
+		print('\nТакого не существует...')
+
+
+def distance_city(phrase):
+	
+	if ('не' in set(phrase) and 'очень' in set(phrase) and 
+		('близко' in set(phrase) or 'близкий' in set(phrase))):
+		count = 0
+		num_cities = cities.shape[0]
+
+		for i in range(num_cities):
+			if (cities.iloc[i]['Расстояние от Москвы'] >= 100 and
+				cities.iloc[i]['Расстояние от Москвы'] <= 300):
+				count = 1
+				print('\n', cities.iloc[i], '\n')
+				print('---------------------\n')
+
+		if count == 0:
+			print('\nТакого не существует...')
+
+	elif ('не' in set(phrase) and 'очень' in set(phrase) and 
+		('далеко' in set(phrase) or 'далёкий' in set(phrase))):
+		count = 0
+		num_cities = cities.shape[0]
+
+		for i in range(num_cities):
+			if (cities.iloc[i]['Расстояние от Москвы'] <= 100):
+				count = 1
+				print('\n', cities.iloc[i], '\n')
+				print('---------------------\n')
+
+		if count == 0:
+			print('\nТакого не существует...')
+
+	elif (len(set(phrase) & {'близко', 'близкий'}) != 0):
+		count = 0
+		num_cities = cities.shape[0]
+
+		for i in range(num_cities):
+			if (cities.iloc[i]['Расстояние от Москвы'] <= 200):
+				count = 1
+				print('\n', cities.iloc[i], '\n')
+				print('---------------------\n')
+
+		if count == 0:
+			print('\nТакого не существует...')
+
+	elif (len(set(phrase) & {'средне', 'средней'}) != 0):
+		count = 0
+		num_cities = cities.shape[0]
+
+		for i in range(num_cities):
+			if (cities.iloc[i]['Расстояние от Москвы'] >= 300 and 
+				cities.iloc[i]['Расстояние от Москвы'] <= 500):
+				count = 1
+				print('\n', cities.iloc[i], '\n')
+				print('---------------------\n')
+
+		if count == 0:
+			print('\nТакого не существует...')
+
+	elif (len(set(phrase) & {'далеко', 'далёкий'}) != 0):
+		count = 0
+		num_cities = cities.shape[0]
+
+		for i in range(num_cities):
+			if (cities.iloc[i]['Расстояние от Москвы'] >= 400):
+				count = 1
+				print('\n', cities.iloc[i], '\n')
+				print('---------------------\n')
+
+		if count == 0:
+			print('\nТакого не существует...')

@@ -39,6 +39,11 @@ def handle(phrase):
 		random_city()
 		return
 
+	if (len(set(phrase) & {'близко', 'близкий', 'далеко', 'далёкий', 'средне', 'средний', 'очень', 'не'}) != 0):
+		distance_city(phrase)
+		more()
+		return
+
 	if (len(set(phrase) & {'какой', 'вывести', 'показать', 'найти', 'подсказать'}) != 0
 				and len(set(phrase) & {'город'}) != 0) or scenarios >= 3:
 		if scenarios == -1:
