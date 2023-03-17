@@ -28,3 +28,9 @@
 
 ### [Лабораторная 5](https://github.com/platosha-git/AIS/tree/master/lab5)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Список вопросов к диалоговой системе.
+
+### [Лабораторная 6](https://github.com/platosha-git/AIS/tree/master/lab6)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Грамматика.
+
+### [Лабораторная 7](https://github.com/platosha-git/AIS/tree/master/lab7)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Реализация поиска по словарю при ограничении на значение признака, заданном при помощи лингвистической переменной. 
